@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasbeeh Counter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e8eaed;
+            background-image: url('https://images.unsplash.com/photo-1533035353720-f1c6a75cd8ab?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            padding: 20px;
+            border-radius: 10px; /* Rounded corners */
+            width: 300px; /* Fixed width */
+            max-width: 90%; /* Maximum width */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Black shadow */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333; /* Dark text color */
+        }
+
+        #counter {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #333; /* Dark text color */
+        }
+
+        .icon-button {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            border: none;
+            cursor: pointer;
+            background-color: #4CAF50; /* Green background color */
+            color: white; /* White text color */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s; /* Smooth color transition */
+        }
+
+        .icon-button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        .icon-button i {
+            margin: 0;
+            padding: 0;
+        }
+
+        .counter-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            font-weight: bold;
+            color: black; /* White text color */
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        footer a {
+            color: blueviolet; /* White link color */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            font-weight: bold;
+            color: black; /* White text color */
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        header a {
+            color: blueviolet; /* White link color */
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+  <header>
+    <h1>Tasbeeh Counter</h1>
+    <p>The "Tasbeeh Counter" is a simple yet powerful tool designed to assist individuals in keeping track of their repetitive prayers.</p>
+  </header>
+    <div class="container">
+        <h1>Tasbeeh Counter</h1>
+        <div id="counter">0</div>
+        <div class="counter-buttons">
+            <button class="icon-button" onclick="decrement()"><i class="fas fa-minus"></i></button>
+          
+            <button class="icon-button" onclick="reset()"><i class="fas fa-redo-alt"></i></button>
+            <button class="icon-button" onclick="increment()"><i class="fas fa-plus"></i></button>
+        </div>
+        
+       
+    </div>
+     <footer>
+        Built by pabitramondtm32
+    </footer>
+
+    <script>
+        let countValue = localStorage.getItem('count') ? parseInt(localStorage.getItem('count')) : 0;
+        const counterElement = document.getElementById('counter');
+        const limit = 1000; // Maximum count limit
+
+        updateCounter();
+
+        function count() {
+            if (countValue < limit) {
+                countValue++;
+                updateCounter();
+            }
+            checkLimit();
+        }
+
+        function reset() {
+            countValue = 0;
+            updateCounter();
+            checkLimit();
+        }
+
+        function increment() {
+            if (countValue < limit) {
+                countValue++;
+                updateCounter();
+            }
+            checkLimit();
+        }
+
+        function decrement() {
+            if (countValue > 0) {
+                countValue--;
+                updateCounter();
+            }
+            checkLimit();
+        }
+
+        function updateCounter() {
+            counterElement.textContent = countValue;
+            localStorage.setItem('count', countValue);
+            updateColor();
+        }
+
+        function updateColor() {
+            if (countValue > 0 && countValue % 33 === 0) {
+                counterElement.style.color = 'red'; // Change color to red every 33 counts
+            } else {
+                counterElement.style.color = '#333'; // Reset color to default
+            }
+        }
+
+        function checkLimit() {
+            if (countValue === limit) {
+                document.querySelectorAll('.icon-button').forEach(button => {
+                    button.disabled = true; // Disable all buttons when limit is reached
+                });
+            } else {
+                document.querySelectorAll('.icon-button').forEach(button => {
+                    button.disabled = false;
+                });
+            }
+        }
+    </script>
+</body>
+</html>
